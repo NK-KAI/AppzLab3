@@ -7,17 +7,17 @@ public class PowerSourceFactory
 	private int _batteryCapacity;
 	
 
-	public void setElectricity(bool enabled)
+	public void SetElectricity(bool enabled)
 	{
 		_electricity = enabled;
 	}
 
-	public void setBattery(int capacity)
+	public void SetBattery(int capacity)
 	{
 		_batteryCapacity = capacity;
 	}
 
-	public void setUps(bool enabled)
+	public void SetUps(bool enabled)
 	{
 		_isUps = enabled;
 	}

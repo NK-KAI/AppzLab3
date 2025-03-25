@@ -1,8 +1,5 @@
-﻿// Console.OutputEncoding = Encoding.UTF8;
-
-namespace Lab2
+﻿namespace Lab2
 {
-    // Точка входу – демонстрація роботи пристроїв
     public static class Program
     {
         public static void Main()
@@ -71,9 +68,9 @@ namespace Lab2
                 }
             }
             
-            powerSourceFactory.setElectricity(electricityMode == "1");
-            powerSourceFactory.setUps(upsMode == "1");
-            powerSourceFactory.setBattery(int.Parse(batteryMode));
+            powerSourceFactory.SetElectricity(electricityMode == "1");
+            powerSourceFactory.SetUps(upsMode == "1");
+            powerSourceFactory.SetBattery(int.Parse(batteryMode));
             deviceFactory.SetPowerSource(powerSourceFactory.Build());
             
             while (!new[] { "1", "2" }.Contains(softMode))
