@@ -2,7 +2,7 @@
 
 public class Battery
 {
-	public int CapacityInmAh { get; }
+	private int CapacityInmAh { get; set; }
 	public int RemainingCapacityInmAh { get; private set; }
 
 	public Battery(int capacityInmAh)
@@ -25,6 +25,16 @@ public class Battery
 		return 0;
 	}
 
+	public int GetBatteryCapacity()
+	{
+		return CapacityInmAh;
+	}
+
+	public void SetCapacity(int capacityInmAh)
+	{
+		CapacityInmAh = capacityInmAh;
+	}
+
 	// Метод для симуляції розряду батареї за певний період роботи (в годинах)
 	public void Consume(double hours, bool intensive)
 	{
@@ -34,7 +44,7 @@ public class Battery
 		else if (CapacityInmAh is >= 5000 and <= 7000)
 			consumptionRate = intensive ? (double)CapacityInmAh / 4 : (double)CapacityInmAh / 12;
             
-		int consumed = (int)(consumptionRate * hours);
+		var consumed = (int)(consumptionRate * hours);
 		RemainingCapacityInmAh -= consumed;
 		if (RemainingCapacityInmAh < 0)
 			RemainingCapacityInmAh = 0;

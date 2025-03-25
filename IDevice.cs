@@ -7,4 +7,5 @@ public interface IDevice
 	void Communicate();
 	void ListenToMusic();
 	void WatchVideo();
+	void ConnectCharger();
 }

@@ -6,7 +6,7 @@ public abstract class Device : IDevice
         public bool HasSoftware { get; set; }
         public bool HasNetwork { get; set; }
         public bool HasAudioDevice { get; set; }
-        public PowerSource Power { get; }
+        private PowerSource Power { get; }
 
         // Конструктор з композицією компонентів
         protected Device(string name, PowerSource power)
@@ -15,7 +15,7 @@ public abstract class Device : IDevice
             Power = power;
         }
 
-        // Загальний метод виконання операцій з перевіркою передумов (DRY, KISS)
+        
         private void ExecuteOperation(string operationName, bool requiresSoftware, 
                                       bool requiresNetwork, bool requiresAudio, bool isIntensive)
         {
@@ -62,11 +62,16 @@ public abstract class Device : IDevice
         }
 
         // Реалізація операцій, спираючись на спільні передумови
-        public virtual void Work() => ExecuteOperation("Work", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: false);
-        public virtual void Play() => ExecuteOperation("Game", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: true);
-        public virtual void Communicate() => ExecuteOperation("Communication", requiresSoftware: true, requiresNetwork: true, requiresAudio: false, isIntensive: false);
-        public virtual void ListenToMusic() => ExecuteOperation("Music listening", requiresSoftware: false, requiresNetwork: false, requiresAudio: true, isIntensive: false);
-        public virtual void WatchVideo() => ExecuteOperation("Video watching", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: true);
+        public void Work() => ExecuteOperation("Work", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: false);
+        public void Play() => ExecuteOperation("Game", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: true);
+        public void Communicate() => ExecuteOperation("Communication", requiresSoftware: true, requiresNetwork: true, requiresAudio: false, isIntensive: false);
+        public void ListenToMusic() => ExecuteOperation("Music listening", requiresSoftware: false, requiresNetwork: false, requiresAudio: true, isIntensive: false);
+        public void WatchVideo() => ExecuteOperation("Video watching", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: true);
+        
+        public void ConnectCharger()
+        {
+            Power.Battery?.SetCapacity(Power.Battery.GetBatteryCapacity());
+        }
     }
 
     // Наслідування для різних типів пристроїв
