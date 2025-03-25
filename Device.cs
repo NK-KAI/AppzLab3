@@ -61,7 +61,7 @@ public abstract class Device
             // Якщо електроенергії немає і використовується батарея – симулюємо розряджання
             if (!Power.ElectricityAvailable)
             {
-                if (Power.Battery != null)
+                if (Power.Battery != null && Power.Battery.RemainingCapacityInmAh != 0)
                 {
                     // Припустимо, що кожна операція триває 1 годину
                     Power.Battery.Consume(1, isIntensive);

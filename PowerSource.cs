@@ -22,7 +22,6 @@ public class PowerSource
 			return true;
 
 		var availableTime = GetAvailableOperationTime(intensive);
-		Console.WriteLine(availableTime);
 		return availableTime > 0;
 	}
 
