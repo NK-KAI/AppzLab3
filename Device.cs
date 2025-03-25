@@ -1,11 +1,11 @@
-﻿namespace Lab1;
+﻿namespace Lab2;
  
-public abstract class Device : IDevice
+public abstract class Device
     {
-        public string Name { get; }
-        public bool HasSoftware { get; set; }
-        public bool HasNetwork { get; set; }
-        public bool HasAudioDevice { get; set; }
+        private string Name { get; }
+        private bool HasSoftware { get; set; }
+        private bool HasNetwork { get; set; }
+        private bool HasAudioDevice { get; set; }
         private PowerSource Power { get; }
 
         // Конструктор з композицією компонентів
@@ -15,11 +15,26 @@ public abstract class Device : IDevice
             Power = power;
         }
 
+        public void SetSoftware(bool enabled)
+        {
+            HasSoftware = enabled;
+        }
+
+        public void SetNetwork(bool enabled)
+        {
+            HasNetwork = enabled;
+        }
+
+        public void SetAudioDevice(bool enabled)
+        {
+            HasAudioDevice = enabled;
+        }
         
         private void ExecuteOperation(string operationName, bool requiresSoftware, 
                                       bool requiresNetwork, bool requiresAudio, bool isIntensive)
         {
-            Console.WriteLine($"[{Name}] Trying \"{operationName}\":");
+            Console.WriteLine($" Trying \"{operationName}\":");
+            
 
             if (requiresSoftware && !HasSoftware)
             {
@@ -41,6 +56,7 @@ public abstract class Device : IDevice
                 Console.WriteLine("  Impossible to execute operation: insufficient power.");
                 return;
             }
+            
             
             // Якщо електроенергії немає і використовується батарея – симулюємо розряджання
             if (!Power.ElectricityAvailable)
@@ -67,53 +83,24 @@ public abstract class Device : IDevice
         public void Communicate() => ExecuteOperation("Communication", requiresSoftware: true, requiresNetwork: true, requiresAudio: false, isIntensive: false);
         public void ListenToMusic() => ExecuteOperation("Music listening", requiresSoftware: false, requiresNetwork: false, requiresAudio: true, isIntensive: false);
         public void WatchVideo() => ExecuteOperation("Video watching", requiresSoftware: true, requiresNetwork: false, requiresAudio: false, isIntensive: true);
-        
-        public void ConnectCharger()
-        {
-            Power.Battery?.SetCapacity(Power.Battery.GetBatteryCapacity());
-        }
-    }
+        public void ConnectCharger() => Power.Battery?.SetCapacity(Power.Battery.GetBatteryCapacity());
+}
 
-    // Наслідування для різних типів пристроїв
-    public class Computer : Device
-    {
-        public Computer(string name, PowerSource power)
-            : base(name, power) { }
-    }
 
-    public class Laptop : Device
-    {
-        public Laptop(string name, PowerSource power)
-            : base(name, power) { }
-    }
+public class Computer: Device
+{
+    public Computer(string name, PowerSource power) 
+        : base(name, power) { }
+}
 
-    public class Smartphone : Device
-    {
-        public Smartphone(string name, PowerSource power)
-            : base(name, power) { }
-    }
+public class Laptop : Device
+{
+    public Laptop(string name, PowerSource power)
+        : base(name, power) { }
+}
 
-    // Компоненти як окремі класи (композиція)
-    public class Processor
-    {
-        public string Model { get; }
-        public double SpeedGHz { get; }
-
-        public Processor(string model, double speedGHz)
-        {
-            Model = model;
-            SpeedGHz = speedGHz;
-        }
-    }
-
-    public class Memory
-    {
-        public string Type { get; }
-        public int CapacityGB { get; }
-
-        public Memory(string type, int capacityGB)
-        {
-            Type = type;
-            CapacityGB = capacityGB;
-        }
-    }
+public class Smartphone : Device
+{
+    public Smartphone(string name, PowerSource power)
+        : base(name, power) { }
+}

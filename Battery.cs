@@ -1,4 +1,4 @@
-﻿namespace Lab1;
+﻿namespace Lab2;
 
 public class Battery
 {
@@ -14,15 +14,16 @@ public class Battery
 	// Розрахунок доступного часу роботи з урахуванням залишкової місткості
 	public double GetOperationTime(bool intensive)
 	{
-		if (CapacityInmAh is >= 2000 and <= 3000)
-			return intensive
+		return CapacityInmAh switch
+		{
+			>= 2000 and <= 3000 => intensive
 				? 16 * RemainingCapacityInmAh / (double)CapacityInmAh
-				: 48 * RemainingCapacityInmAh / (double)CapacityInmAh;
-		if (CapacityInmAh is >= 5000 and <= 7000)
-			return intensive
+				: 48 * RemainingCapacityInmAh / (double)CapacityInmAh,
+			>= 5000 and <= 7000 => intensive
 				? 4 * RemainingCapacityInmAh / (double)CapacityInmAh
-				: 12 * RemainingCapacityInmAh / (double)CapacityInmAh;
-		return 0;
+				: 12 * RemainingCapacityInmAh / (double)CapacityInmAh,
+			_ => 0
+		};
 	}
 
 	public int GetBatteryCapacity()
@@ -38,12 +39,13 @@ public class Battery
 	// Метод для симуляції розряду батареї за певний період роботи (в годинах)
 	public void Consume(double hours, bool intensive)
 	{
-		double consumptionRate = 0;
-		if (CapacityInmAh is >= 2000 and <= 3000)
-			consumptionRate = intensive ? (double)CapacityInmAh / 16 : (double)CapacityInmAh / 48;
-		else if (CapacityInmAh is >= 5000 and <= 7000)
-			consumptionRate = intensive ? (double)CapacityInmAh / 4 : (double)CapacityInmAh / 12;
-            
+		var consumptionRate = CapacityInmAh switch
+		{
+			>= 2000 and <= 3000 => intensive ? (double)CapacityInmAh / 16 : (double)CapacityInmAh / 48,
+			>= 5000 and <= 7000 => intensive ? (double)CapacityInmAh / 4 : (double)CapacityInmAh / 12,
+			_ => 0
+		};
+
 		var consumed = (int)(consumptionRate * hours);
 		RemainingCapacityInmAh -= consumed;
 		if (RemainingCapacityInmAh < 0)
